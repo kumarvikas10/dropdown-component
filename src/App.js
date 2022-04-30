@@ -1,25 +1,44 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import './App.css'
 
-function App() {
+const options = ["YES", "Probably Not"];
+
+export default function App() {
+  const [option, setOption] = useState(false);
+  const [selectedOption, setSelectedOption] = useState(null);
+
+  const toggling = () => setOption(!option);
+
+  const onSelctedOption = (value) => () => {
+    setSelectedOption(value);
+    setOption(false);
+    console.log(selectedOption);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="main">
+        <h2>Should You Use Dropdown?</h2>
+        <div className="dropdownContainer">
+          <i class="fa-solid fa-caret-down icon" onClick={toggling} ><span className="option">{selectedOption || "Select"}</span></i>
+          <div className="dropdownHeader" >
+          {option && (
+            <div>
+              <ul className="dropdownList">
+                {options.map((option) => (
+                  <li
+                    className="listItem"
+                    onClick={onSelctedOption(option)}
+                  >
+                    {option}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
-
-export default App;
